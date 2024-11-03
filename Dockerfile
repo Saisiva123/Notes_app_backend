@@ -5,6 +5,9 @@ WORKDIR /app_server
 COPY package*.json .
 
 ARG NODE_ENV
+ARG PORT
+
+ENV PORT=${PORT}
 
 RUN if [ "${NODE_ENV}" = "development"]; \
         then npm install; \
@@ -12,8 +15,6 @@ RUN if [ "${NODE_ENV}" = "development"]; \
         fi
 
 COPY . .
-
-ARG PORT
 
 EXPOSE ${PORT}
 
