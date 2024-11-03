@@ -1,0 +1,40 @@
+services:
+
+  notes_app_server:
+    container_name: notes_app_server
+
+    depends_on:
+      - mongodb_server
+
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - PORT=4200
+        - NODE_ENV=development
+
+    env_file:
+      - .env.development
+
+    ports:
+      - 4200:4200
+
+    volumes:
+      - .:/app_server
+      - /app_server/node_modules
+
+
+  mongodb_server:
+    container_name: mongodb_server
+
+    image: mongo
+    restart: always
+
+    ports:
+      - 27017:27017
+
+    volumes:
+      - notes_app_mongodb_volume:/data/db
+
+volumes:
+  notes_app_mongodb_volume:
